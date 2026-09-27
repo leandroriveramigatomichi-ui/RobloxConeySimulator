@@ -1,6 +1,6 @@
--- Rabbit Simulator: PREMIUM Map Generator v2
--- Enhanced visual appeal with realistic wood, lush decorations, and spectacular central area
--- Paste this Script into ServerScriptService in Roblox Studio and press Play.
+-- Rabbit Simulator: Premium Map Generator
+-- Clean and valid Roblox Lua script
+-- Place this in ServerScriptService and press Play
 
 local Workspace = game:GetService("Workspace")
 local Lighting = game:GetService("Lighting")
@@ -16,25 +16,303 @@ local world = Instance.new("Folder")
 world.Name = WORLD_NAME
 world.Parent = Workspace
 
--- Enhanced color palette for premium feel
 local COLORS = {
-	grass = Color3.fromRGB(152, 224, 140),
-	grassDark = Color3.fromRGB(120, 190, 100),
-	grassLight = Color3.fromRGB(220, 245, 205),
-	woodDark = Color3.fromRGB(85, 50, 28),
-	woodMid = Color3.fromRGB(128, 80, 42),
-	woodLight = Color3.fromRGB(180, 120, 65),
-	woodBark = Color3.fromRGB(76, 45, 25),
-	gold = Color3.fromRGB(255, 225, 100),
-	goldLight = Color3.fromRGB(255, 240, 150),
-	pink = Color3.fromRGB(255, 179, 203),
-	pinkLight = Color3.fromRGB(255, 210, 230),
-	violet = Color3.fromRGB(160, 100, 200),
-	violetLight = Color3.fromRGB(200, 140, 240),
-	red = Color3.fromRGB(220, 50, 90),
-	redLight = Color3.fromRGB(255, 100, 140),
-	cream = Color3.fromRGB(255, 250, 230),
-	creamDark = Color3.fromRGB(245, 235, 210),
-	skyBlue = Color3.fromRGB(200, 230, 255),
-	lavender = Color3.fromRGB(220, 200, 245),
-}\n\nlocal function part(name, size, position, color, material, parent, shape)\n\tlocal p = Instance.new(\"Part\")\n\tp.Name = name\n\tp.Size = size\n\tp.Position = position\n\tp.Color = color\n\tp.Material = material or Enum.Material.SmoothPlastic\n\tp.Anchored = true\n\tp.TopSurface = Enum.SurfaceType.Smooth\n\tp.BottomSurface = Enum.SurfaceType.Smooth\n\tif shape then p.Shape = shape end\n\tp.Parent = parent or world\n\treturn p\nend\n\nlocal function cylinder(name, radius, height, position, color, material, parent, transparency)\n\tlocal p = Instance.new(\"Part\")\n\tp.Name = name\n\tp.Size = Vector3.new(radius * 2, height, radius * 2)\n\tp.Position = position\n\tp.Color = color\n\tp.Material = material or Enum.Material.SmoothPlastic\n\tp.Shape = Enum.PartType.Cylinder\n\tp.Anchored = true\n\tp.TopSurface = Enum.SurfaceType.Smooth\n\tp.BottomSurface = Enum.SurfaceType.Smooth\n\tif transparency then p.Transparency = transparency end\n\tp.Parent = parent or world\n\treturn p\nend\n\nlocal function ball(name, size, position, color, material, parent, transparency)\n\tlocal p = Instance.new(\"Part\")\n\tp.Name = name\n\tp.Size = size\n\tp.Position = position\n\tp.Color = color\n\tp.Material = material or Enum.Material.SmoothPlastic\n\tp.Shape = Enum.PartType.Ball\n\tp.Anchored = true\n\tp.TopSurface = Enum.SurfaceType.Smooth\n\tp.BottomSurface = Enum.SurfaceType.Smooth\n\tif transparency then p.Transparency = transparency end\n\tp.Parent = parent or world\n\treturn p\nend\n\nlocal function addLight(parent, color, range, brightness)\n\tlocal light = Instance.new(\"PointLight\")\n\tlight.Color = color\n\tlight.Range = range\n\tlight.Brightness = brightness\n\tlight.Parent = parent\n\treturn light\nend\n\nlocal function billboardText(parent, text, color, offset, textSize)\n\tlocal gui = Instance.new(\"BillboardGui\")\n\tgui.Name = \"Label\"\n\tgui.Size = UDim2.fromOffset(300, 80)\n\tgui.StudsOffset = offset or Vector3.new(0, 5, 0)\n\tgui.AlwaysOnTop = true\n\tgui.Parent = parent\n\tlocal label = Instance.new(\"TextLabel\")\n\tlabel.Size = UDim2.fromScale(1, 1)\n\tlabel.BackgroundTransparency = 1\n\tlabel.Text = text\n\tlabel.TextColor3 = color\n\tlabel.TextStrokeTransparency = 0.4\n\tlabel.Font = Enum.Font.GothamBold\n\tlabel.TextScaled = true\n\tif textSize then label.TextSize = textSize end\n\tlabel.Parent = gui\nend\n\n-- PREMIUM LIGHTING: Warm, soft, dreamy with enhanced depth\nLighting.ClockTime = 15\nLighting.Brightness = 2.5\nLighting.Ambient = Color3.fromRGB(200, 180, 210)\nLighting.OutdoorAmbient = Color3.fromRGB(210, 220, 240)\nLighting.EnvironmentDiffuseScale = 0.5\nLighting.EnvironmentSpecularScale = 0.4\nLighting.GlobalShadows = true\nLighting.ShadowSoftness = 0.5\n\n-- Premium atmosphere for dreamy sky effect\nlocal atmosphere = Lighting:FindFirstChild(\"RabbitAtmosphere\") or Instance.new(\"Atmosphere\")\natmosphere.Name = \"RabbitAtmosphere\"\natmosphere.Color = Color3.fromRGB(210, 225, 255)\natmosphere.Decay = Color3.fromRGB(255, 190, 210)\natmosphere.Density = 0.28\natmosphere.Glare = 0.22\natmosphere.Haze = 0.75\natmosphere.Parent = Lighting\n\n-- Enhanced bloom for magical feeling\nlocal bloom = Instance.new(\"BloomEffect\")\nbloom.Name = \"PremiumBloom\"\nbloom.Intensity = 0.25\nbloom.Size = 28\nbloom.Threshold = 0.95\nbloom.Parent = Lighting\n\n-- Beautiful sky\nlocal sky = Lighting:FindFirstChild(\"RabbitSky\") or Instance.new(\"Sky\")\nsky.Name = \"RabbitSky\"\nsky.CelestialBodiesShown = true\nsky.StarCount = 1500\nsky.SunAngularSize = 20\nsky.MoonAngularSize = 10\nsky.SkyboxBk = \"rbxasset://sky\"\nsky.SkyboxDn = \"rbxasset://sky\"\nsky.SkyboxFt = \"rbxasset://sky\"\nsky.SkyboxLf = \"rbxasset://sky\"\nsky.SkyboxRt = \"rbxasset://sky\"\nsky.SkyboxUp = \"rbxasset://sky\"\nsky.Parent = Lighting\n\n-- TERRAIN: Multi-layered base for depth\npart(\"IslandBase\", Vector3.new(550, 12, 550), Vector3.new(0, -10, 0), COLORS.grassDark, Enum.Material.Grass)\ncylinder(\"IslandInnerGlow\", 275, 2, Vector3.new(0, 0, 0), COLORS.grass, Enum.Material.Grass)\n\n-- Island border with gradient effect\nfor i = 1, 3 do\n\tlocal borderRadius = 276 - (i - 1) * 4\n\tlocal borderY = -0.5 - i * 1.5\n\tcylinder(\"IslandBorder\" .. i, borderRadius, 1.2, Vector3.new(0, borderY, 0), COLORS.grassLight, Enum.Material.Grass, nil, 0.1 * i)\nend\n\n-- CENTRAL CIRCULAR GARDEN: Larger, more luxurious\ncylinder(\"CentralGarden_Base\", 72, 6, Vector3.new(0, 3, 0), COLORS.creamDark, Enum.Material.Marble)\ncylinder(\"CentralGarden_Top\", 70, 1.5, Vector3.new(0, 6.2, 0), COLORS.cream, Enum.Material.Marble)\ncylinder(\"CentralGarden_Grass\", 66, 1.8, Vector3.new(0, 6.5, 0), COLORS.grassLight, Enum.Material.Grass)\n\n-- Multi-layered golden trim for luxury\ncylinder(\"GardenTrim_Outer\", 72.5, 1.2, Vector3.new(0, 5.4, 0), COLORS.gold, Enum.Material.Neon)\ncylinder(\"GardenTrim_Inner\", 65, 0.8, Vector3.new(0, 6.8, 0), COLORS.goldLight, Enum.Material.Neon, nil, 0.2)\n\n-- Decorative marble rings around garden\nfor i = 1, 4 do\n\tlocal ringRadius = 64 - i * 8\n\tlocal ringY = 6.3 + (i % 2) * 0.4\n\tlocal ringColor = (i % 2 == 0) and COLORS.pink or COLORS.lavender\n\tcylinder(\"GardenDecorRing\" .. i, ringRadius, 0.3, Vector3.new(0, ringY, 0), ringColor, Enum.Material.Neon, nil, 0.3)\nend\n\n-- Beautiful flowers scattered around garden perimeter\nlocal flowerPositions = {\n\t{Vector3.new(55, 7.5, 0), COLORS.pink},\n\t{Vector3.new(-55, 7.5, 0), COLORS.pinkLight},\n\t{Vector3.new(0, 7.5, 55), COLORS.violet},\n\t{Vector3.new(0, 7.5, -55), COLORS.violetLight},\n\t{Vector3.new(39, 7.5, 39), COLORS.red},\n\t{Vector3.new(-39, 7.5, 39), COLORS.redLight},\n\t{Vector3.new(39, 7.5, -39), COLORS.pink},\n\t{Vector3.new(-39, 7.5, -39), COLORS.violet},\n}\nfor i, flowerData in ipairs(flowerPositions) do\n\tlocal pos = flowerData[1]\n\tlocal color = flowerData[2]\n\tlocal flower = ball(\"DecorativeFlower\" .. i, Vector3.new(3, 3.5, 3), pos, color, Enum.Material.SmoothPlastic)\n\taddLight(flower, color, 12, 0.5)\nend\n\n-- FOUR PATHS WITH STAIRS: Premium version\nlocal paths = {\n\t{ name = \"North\", direction = Vector3.new(0, 0, -1) },\n\t{ name = \"East\", direction = Vector3.new(1, 0, 0) },\n\t{ name = \"South\", direction = Vector3.new(0, 0, 1) },\n\t{ name = \"West\", direction = Vector3.new(-1, 0, 0) },\n}\n\nfor _, data in ipairs(paths) do\n\tlocal d = data.direction\n\tlocal perpendicular = Vector3.new(-d.Z, 0, d.X)\n\t\n\t-- Premium stairs with shadow layers\n\tfor i = 1, 7 do\n\t\tlocal distance = 71 - (i - 1) * 2.5\n\t\tlocal stepY = 4.5 - i * 0.4\n\t\tlocal center = d * distance + Vector3.new(0, stepY, 0)\n\t\t\n\t\t-- Main step\n\t\tlocal step = part(data.name .. \"Step\" .. i, Vector3.new(16, 1.3, 4.5), center, COLORS.cream, Enum.Material.Marble)\n\t\tif math.abs(d.X) > 0 then step.Size = Vector3.new(4.5, 1.3, 16) end\n\t\t\n\t\t-- Shadow line for depth\n\t\tlocal shadow = part(data.name .. \"StepShadow\" .. i, Vector3.new(16, 0.2, 5), center + Vector3.new(0, -0.65, d * 2.25), COLORS.creamDark, Enum.Material.SmoothPlastic)\n\t\tif math.abs(d.X) > 0 then shadow.Size = Vector3.new(5, 0.2, 16) end\n\tend\n\t\n\t-- Main path floor\n\tlocal pathCenter = d * 115 + Vector3.new(0, 1, 0)\n\tlocal path = part(data.name .. \"Path\", Vector3.new(16, 2.5, 110), pathCenter, COLORS.cream, Enum.Material.Marble)\n\tif math.abs(d.X) > 0 then path.Size = Vector3.new(110, 2.5, 16) end\n\t\n\t-- Path edges glow\n\tpart(data.name .. \"PathEdge1\", Vector3.new(2.2, 0.2, 110), pathCenter + perpendicular * 7.2 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)\n\tpart(data.name .. \"PathEdge2\", Vector3.new(2.2, 0.2, 110), pathCenter - perpendicular * 7.2 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)\n\tif math.abs(d.X) > 0 then\n\t\tpart(data.name .. \"PathEdge1\", Vector3.new(110, 0.2, 2.2), pathCenter + perpendicular * 7.2 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)\n\t\tpart(data.name .. \"PathEdge2\", Vector3.new(110, 0.2, 2.2), pathCenter - perpendicular * 7.2 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)\n\tend\n\t\n\t-- Glowing guide posts along path\n\tfor j = 1, 5 do\n\t\tlocal postPos = d * (80 + j * 15) + Vector3.new(0, 3.5, 0)\n\t\tcylinder(\"PathPost\" .. j, 0.6, 6, postPos, COLORS.woodMid, Enum.Material.Wood)\n\t\tlocal lantern = ball(\"PathPostLight\" .. j, Vector3.new(2, 2, 2), postPos + Vector3.new(0, 4, 0), COLORS.goldLight, Enum.Material.Neon)\n\t\taddLight(lantern, COLORS.gold, 18, 1.3)\n\tend\nend\n\n-- SPECTACULAR CENTRAL TREE: Maximum volume and realism\n-- Root flare: large and impressive\nlocal rootFlare = cylinder(\"TreeRootFlare\", 22, 10, Vector3.new(0, 7, 0), COLORS.woodLight, Enum.Material.Wood)\nfor i = 1, 12 do\n\tlocal angle = math.pi * 2 * i / 12\n\tlocal distance = math.cos(angle * 0.5) * 16 + 8\n\tlocal rootPos = Vector3.new(math.cos(angle) * distance, 5.5 + math.sin(angle * 1.5) * 1.5, math.sin(angle) * distance)\n\tlocal root = cylinder(\"BuriedRoot\" .. i, 5.5, 3.2, rootPos, COLORS.woodLight, Enum.Material.Wood)\n\troot.CFrame = CFrame.lookAt(rootPos, Vector3.new(0, 5.5, 0)) * CFrame.Angles(0, math.pi / 2, 0)\nend\n\n-- Main trunk: massive and detailed with bark layers\nlocal trunk = cylinder(\"AncientRabbitTreeTrunk\", 12, 62, Vector3.new(0, 35, 0), COLORS.woodMid, Enum.Material.Wood)\n\n-- Bark texture details: multiple overlapping layers for realism\nfor i = 1, 10 do\n\tlocal y = 12 + i * 5.2\n\tlocal barkRadius = 12.3 - (i % 3) * 0.3\n\tcylinder(\"BarkLayer\" .. i, barkRadius, 0.5, Vector3.new(0, y, 0), COLORS.woodBark, Enum.Material.Wood, nil, 0.2 + (i % 2) * 0.15)\nend\n\n-- Branch stubs for visual interest\nfor i = 1, 6 do\n\tlocal angle = math.pi * 2 * i / 6\n\tlocal branchY = 25 + i * 5\n\tlocal branchPos = Vector3.new(math.cos(angle) * 8, branchY, math.sin(angle) * 8)\n\tcylinder(\"TreeBranchStub\" .. i, 2.8, 6, branchPos, COLORS.woodMid, Enum.Material.Wood)\n\tbranchPos.CFrame = CFrame.lookAt(branchPos, Vector3.new(0, branchY, 0)) * CFrame.Angles(0, angle, 0)\nend\n\n-- MASSIVE CANOPY: Layered for incredible volume\nlocal canopyLayers = {\n\t-- Base layer: large volume\n\t{Vector3.new(0, 68, 0), 28, COLORS.violet, 0.15},\n\t{Vector3.new(0, 65, 0), 25, COLORS.red, 0},\n\t\n\t-- Mid layer: directional density\n\t{Vector3.new(-22, 62, 5), 20, COLORS.violet, 0.1},\n\t{Vector3.new(22, 61, -4), 20, COLORS.red, 0.1},\n\t{Vector3.new(0, 60, 20), 18, COLORS.redLight, 0.15},\n\t{Vector3.new(0, 58, -20), 18, COLORS.violetLight, 0.15},\n\t\n\t-- Detail layer: smaller clusters for texture\n\t{Vector3.new(-16, 55, -14), 15, COLORS.red, 0.2},\n\t{Vector3.new(18, 54, 14), 15, COLORS.violet, 0.2},\n\t{Vector3.new(-18, 53, 14), 14, COLORS.redLight, 0.25},\n\t{Vector3.new(18, 52, -14), 14, COLORS.violetLight, 0.25},\n\t\n\t-- Edge layer: soften silhouette\n\t{Vector3.new(-26, 57, 0), 12, COLORS.redLight, 0.3},\n\t{Vector3.new(26, 56, 0), 12, COLORS.violetLight, 0.3},\n}\n\nfor i, leaf in ipairs(canopyLayers) do\n\tball(\"FantasyLeafMass\" .. i, Vector3.new(leaf[2] * 2, leaf[2] * 1.5, leaf[2] * 2), leaf[1], leaf[3], Enum.Material.SmoothPlastic, nil, leaf[4])\nend\n\n-- Glowing magical fruits throughout canopy\nfor i = 1, 18 do\n\tlocal angle = i * math.pi * 2 / 18\n\tlocal radius = 8 + (i % 3) * 3\n\tlocal height = 55 + (i % 5) * 5\n\tlocal fruitPos = Vector3.new(math.cos(angle) * radius, height, math.sin(angle) * radius)\n\tlocal fruitColor = (i % 2 == 0) and COLORS.gold or COLORS.goldLight\n\tlocal fruit = ball(\"GlowFruit\" .. i, Vector3.new(2, 2, 2), fruitPos, fruitColor, Enum.Material.Neon)\n\taddLight(fruit, fruitColor, 11, 0.6)\nend\n\n-- Tree label\nbillboardText(trunk, \"🐰  ENCHANTED RABBIT GARDEN  🐰\", COLORS.cream, Vector3.new(0, 30, 0))\n\n-- FOUR PREMIUM SPAWN PADS: Glowing and magical\nfor i, data in ipairs(paths) do\n\tlocal d = data.direction\n\tlocal spawn = Instance.new(\"SpawnLocation\")\n\tspawn.Name = \"RabbitSpawn\" .. i\n\tspawn.Size = Vector3.new(14, 0.6, 14)\n\tspawn.Position = d * 44 + Vector3.new(0, 7.3, 0)\n\tspawn.Transparency = 0.25\n\tspawn.Color = COLORS.pinkLight\n\tspawn.Material = Enum.Material.Neon\n\tspawn.Anchored = true\n\tspawn.CanCollide = true\n\tspawn.Neutral = true\n\tspawn.Duration = 1\n\tspawn.Parent = world\n\t\n\t-- Multiple glow rings for premium feel\n\tcylinder(\"SpawnRing\" .. i .. \"_Outer\", 8.5, 0.3, spawn.Position + Vector3.new(0, 0.4, 0), COLORS.gold, Enum.Material.Neon, nil, 0.15)\n\tcylinder(\"SpawnRing\" .. i .. \"_Mid\", 7, 0.25, spawn.Position + Vector3.new(0, 0.5, 0), COLORS.pink, Enum.Material.Neon, nil, 0.3)\n\tcylinder(\"SpawnRing\" .. i .. \"_Inner\", 5.5, 0.2, spawn.Position + Vector3.new(0, 0.6, 0), COLORS.goldLight, Enum.Material.Neon)\n\t\n\t-- Spawn light aura\n\taddLight(spawn, COLORS.pink, 14, 0.8)\nend\n\n-- DECORATIVE TREES CIRCLE: Elegant garden border\nfor i = 1, 16 do\n\tlocal angle = i * math.pi * 2 / 16 + math.pi / 16\n\tlocal distance = 58\n\tlocal treePos = Vector3.new(math.cos(angle) * distance, 10, math.sin(angle) * distance)\n\t\n\t-- Trunk\n\tcylinder(\"DecorativeTreeTrunk\" .. i, 2.5, 10, treePos, COLORS.woodMid, Enum.Material.Wood)\n\t\n\t-- Crown\n\tlocal isRed = i % 2 == 0\n\tlocal crownColor = isRed and COLORS.red or COLORS.violet\n\tlocal crown = ball(\"DecorativeTreeCrown\" .. i, Vector3.new(13, 15, 13), treePos + Vector3.new(0, 9, 0), crownColor, Enum.Material.SmoothPlastic, nil, 0.1)\n\t\n\t-- Subtle glow\n\taddLight(crown, crownColor, 10, 0.3)\nend\n\n-- GARDEN ELEMENTS: Mushroom clusters for whimsy\nfor i = 1, 8 do\n\tlocal angle = i * math.pi * 2 / 8\n\tlocal distance = 38 + (i % 2) * 8\n\tlocal mushroomCluster = Vector3.new(math.cos(angle) * distance, 7.8, math.sin(angle) * distance)\n\t\n\tfor j = 1, 3 do\n\t\tlocal offset = Vector3.new(math.cos(angle + j) * 2, 0, math.sin(angle + j) * 2)\n\t\tlocal mushroomColor = (i + j) % 2 == 0 and COLORS.pink or COLORS.red\n\t\tlocal mushroom = ball(\"Mushroom\" .. i .. \"_\" .. j, Vector3.new(2, 2.5, 2), mushroomCluster + offset, mushroomColor, Enum.Material.SmoothPlastic)\n\tend\nend\n\n-- PREMIUM PATHWAY LANTERNS: Enhanced for ambiance\nfor _, data in ipairs(paths) do\n\tlocal d = data.direction\n\t\n\tfor k = 1, 3 do\n\t\tlocal lanternPos = d * (78 + k * 20) + Vector3.new(0, 11, 0)\n\t\t\n\t\t-- Post\n\t\tcylinder(\"LanternPost\" .. data.name .. k, 0.7, 8, lanternPos - Vector3.new(0, 4, 0), COLORS.woodMid, Enum.Material.Wood)\n\t\t\n\t\t-- Lantern body\n\t\tlocal lantern = ball(\"Lantern\" .. data.name .. k, Vector3.new(3, 3.5, 3), lanternPos, COLORS.goldLight, Enum.Material.Neon, nil, 0.1)\n\t\taddLight(lantern, COLORS.gold, 24, 1.4)\n\t\t\n\t\t-- Decorative shine\n\t\tball(\"LanternShine\" .. data.name .. k, Vector3.new(1.2, 1.2, 1.2), lanternPos + Vector3.new(-0.8, -0.8, 0), COLORS.cream, Enum.Material.Neon, nil, 0.4)\n\tend\nend\n\n-- AMBIANCE FLOATING PARTICLES: Invisible anchor points for particle effects\nfor i = 1, 12 do\n\tlocal angle = i * math.pi * 2 / 12\n\tlocal particleAnchor = part(\"ParticleAnchor\" .. i, Vector3.new(0.1, 0.1, 0.1), Vector3.new(math.cos(angle) * 30, 45, math.sin(angle) * 30), COLORS.cream, Enum.Material.SmoothPlastic, nil, Enum.PartType.Ball)\n\tparticleAnchor.CanCollide = false\n\tparticleAnchor.Transparency = 1\nend\n\n-- Spawn handling\nPlayers.PlayerAdded:Connect(function(player)\n\tplayer.CharacterAdded:Connect(function(character)\n\t\tlocal rootPart = character:WaitForChild(\"HumanoidRootPart\", 10)\n\t\tif rootPart and not character:GetAttribute(\"RabbitSpawned\") then\n\t\t\tcharacter:SetAttribute(\"RabbitSpawned\", true)\n\t\t\twait(0.1)\n\t\t\trootPart.CFrame = CFrame.new(0, 10, -44)\n\t\tend\n\tend)\nend)\n\nprint(\"✨ PREMIUM RabbitWorld creado: ¡árbol espectacular, jardín lujoso, y ambiente mágico!\")\n
+	grass = Color3.fromRGB(160, 220, 150),
+	grassDark = Color3.fromRGB(112, 169, 94),
+	grassLight = Color3.fromRGB(228, 248, 211),
+	woodDark = Color3.fromRGB(77, 48, 27),
+	woodMid = Color3.fromRGB(118, 77, 41),
+	woodLight = Color3.fromRGB(173, 118, 74),
+	gold = Color3.fromRGB(255, 217, 92),
+	goldLight = Color3.fromRGB(255, 239, 170),
+	pink = Color3.fromRGB(255, 190, 220),
+	pinkLight = Color3.fromRGB(255, 219, 235),
+	violet = Color3.fromRGB(161, 96, 204),
+	violetLight = Color3.fromRGB(197, 142, 230),
+	red = Color3.fromRGB(212, 62, 97),
+	redLight = Color3.fromRGB(255, 119, 154),
+	cream = Color3.fromRGB(255, 250, 236),
+	creamDark = Color3.fromRGB(241, 233, 212),
+	stone = Color3.fromRGB(233, 229, 219),
+}
+
+local function part(name, size, position, color, material, parent)
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Size = size
+	p.Position = position
+	p.Color = color
+	p.Material = material or Enum.Material.SmoothPlastic
+	p.Anchored = true
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p.Parent = parent or world
+	return p
+end
+
+local function cylinder(name, radius, height, position, color, material, parent)
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Size = Vector3.new(radius * 2, height, radius * 2)
+	p.Position = position
+	p.Color = color
+	p.Material = material or Enum.Material.SmoothPlastic
+	p.Shape = Enum.PartType.Cylinder
+	p.Anchored = true
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p.Parent = parent or world
+	return p
+end
+
+local function ball(name, size, position, color, material, parent)
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Size = size
+	p.Position = position
+	p.Color = color
+	p.Material = material or Enum.Material.SmoothPlastic
+	p.Shape = Enum.PartType.Ball
+	p.Anchored = true
+	p.TopSurface = Enum.SurfaceType.Smooth
+	p.BottomSurface = Enum.SurfaceType.Smooth
+	p.Parent = parent or world
+	return p
+end
+
+local function pointLight(parent, color, range, brightness)
+	local light = Instance.new("PointLight")
+	light.Color = color
+	light.Range = range
+	light.Brightness = brightness
+	light.Parent = parent
+	return light
+end
+
+local function spawnLocation(name, position, size)
+	local spawn = Instance.new("SpawnLocation")
+	spawn.Name = name
+	spawn.Size = size or Vector3.new(12, 1, 12)
+	spawn.Position = position
+	spawn.Anchored = true
+	spawn.CanCollide = true
+	spawn.Transparency = 0.25
+	spawn.Color = Color3.fromRGB(255, 210, 230)
+	spawn.Material = Enum.Material.Neon
+	spawn.Neutral = true
+	spawn.Duration = 1
+	spawn.Parent = world
+	return spawn
+end
+
+-- Lighting: pastel sky and warm magical day
+Lighting.ClockTime = 14.5
+Lighting.Brightness = 2.3
+Lighting.Ambient = Color3.fromRGB(170, 185, 215)
+Lighting.OutdoorAmbient = Color3.fromRGB(205, 205, 225)
+Lighting.GlobalShadows = true
+Lighting.ShadowSoftness = 0.6
+
+local sun = Instance.new("SunLight")
+sun.Name = "RabbitSun"
+sun.Brightness = 1.4
+sun.Angle = 30
+sun.Parent = Lighting
+
+local atmosphere = Instance.new("Atmosphere")
+atmosphere.Name = "RabbitAtmosphere"
+atmosphere.Color = Color3.fromRGB(193, 219, 255)
+atmosphere.Decay = Color3.fromRGB(255, 200, 220)
+atmosphere.Density = 0.24
+atmosphere.Glare = 0.1
+atmosphere.Haze = 0.6
+atmosphere.Parent = Lighting
+
+local bloom = Instance.new("BloomEffect")
+bloom.Intensity = 0.18
+bloom.Size = 18
+bloom.Threshold = 1.2
+bloom.Parent = Lighting
+
+-- Big grass island
+part("IslandBase", Vector3.new(540, 12, 540), Vector3.new(0, -10, 0), COLORS.grassDark, Enum.Material.Grass)
+part("IslandTop", Vector3.new(500, 3, 500), Vector3.new(0, -3, 0), COLORS.grass, Enum.Material.Grass)
+
+-- Main circular platform
+cylinder("GardenBase", 72, 6, Vector3.new(0, 3, 0), COLORS.stone, Enum.Material.Marble)
+cylinder("GardenTop", 69, 1.3, Vector3.new(0, 6.5, 0), COLORS.cream, Enum.Material.Marble)
+cylinder("GardenGrass", 64, 1.4, Vector3.new(0, 7.2, 0), COLORS.grassLight, Enum.Material.Grass)
+
+-- Gold trim
+cylinder("GardenTrim", 72.5, 0.9, Vector3.new(0, 5.8, 0), COLORS.gold, Enum.Material.Neon)
+
+-- Decorative inner rings
+for i = 1, 4 do
+	local radius = 50 - i * 9
+	local y = 7.4 + i * 0.2
+	local color = i % 2 == 0 and COLORS.pink or COLORS.violet
+	cylinder("GardenRing" .. i, radius, 0.25, Vector3.new(0, y, 0), color, Enum.Material.Neon)
+end
+
+-- Flowers around the garden
+local flowers = {
+	Vector3.new(52, 7.4, 0),
+	Vector3.new(-52, 7.4, 0),
+	Vector3.new(0, 7.4, 52),
+	Vector3.new(0, 7.4, -52),
+	Vector3.new(38, 7.4, 38),
+	Vector3.new(-38, 7.4, 38),
+	Vector3.new(38, 7.4, -38),
+	Vector3.new(-38, 7.4, -38),
+}
+for i, pos in ipairs(flowers) do
+	local flower = ball("Flower" .. i, Vector3.new(3.5, 3.5, 3.5), pos, i % 2 == 0 and COLORS.violet or COLORS.red, Enum.Material.SmoothPlastic)
+	pointLight(flower, i % 2 == 0 and COLORS.violet or COLORS.red, 12, 0.4)
+end
+
+-- Central tree trunk
+local trunk = cylinder("TreeTrunk", 12, 58, Vector3.new(0, 33, 0), COLORS.woodMid, Enum.Material.Wood)
+
+-- Root flare
+local rootFlare = cylinder("Roots", 17, 8, Vector3.new(0, 8, 0), COLORS.woodLight, Enum.Material.Wood)
+
+-- Roots around it
+for i = 1, 10 do
+	local angle = (math.pi * 2 / 10) * i
+	local rootPos = Vector3.new(math.cos(angle) * 16, 6.5, math.sin(angle) * 16)
+	local root = cylinder("Root" .. i, 4, 4, rootPos, COLORS.woodLight, Enum.Material.Wood)
+	root.CFrame = root.CFrame * CFrame.Angles(0, angle, 0)
+end
+
+-- Bark layers for wood detail
+for i = 1, 8 do
+	local y = 12 + i * 5.5
+	cylinder("BarkLayer" .. i, 12.5 - i * 0.35, 0.5, Vector3.new(0, y, 0), COLORS.woodDark, Enum.Material.Wood)
+end
+
+-- Canopy with red + violet leaves
+local leaves = {
+	{Vector3.new(0, 66, 0), 28, COLORS.violet},
+	{Vector3.new(0, 62, 0), 22, COLORS.red},
+	{Vector3.new(-22, 61, 5), 18, COLORS.violetLight},
+	{Vector3.new(22, 60, -5), 18, COLORS.redLight},
+	{Vector3.new(0, 58, 20), 16, COLORS.red},
+	{Vector3.new(0, 56, -20), 16, COLORS.violet},
+	{Vector3.new(-18, 53, -15), 14, COLORS.redLight},
+	{Vector3.new(18, 52, 15), 14, COLORS.violetLight},
+	{Vector3.new(-26, 57, 0), 12, COLORS.red},
+	{Vector3.new(26, 56, 0), 12, COLORS.violet},
+}
+for i, data in ipairs(leaves) do
+	local p = ball("LeafCluster" .. i, Vector3.new(data[2] * 2, data[2] * 1.4, data[2] * 2), data[1], data[3], Enum.Material.SmoothPlastic)
+	pointLight(p, data[3], 16, 0.2)
+end
+
+-- Magic fruits
+for i = 1, 16 do
+	local angle = (math.pi * 2 / 16) * i
+	local radius = 11 + (i % 4) * 3
+	local fruitPos = Vector3.new(math.cos(angle) * radius, 55 + (i % 5) * 4, math.sin(angle) * radius)
+	local fruit = ball("Fruit" .. i, Vector3.new(2.3, 2.3, 2.3), fruitPos, COLORS.gold, Enum.Material.Neon)
+	pointLight(fruit, COLORS.gold, 14, 0.8)
+end
+
+-- Tree top sign
+local sign = Instance.new("BillboardGui")
+sign.Name = "TreeSign"
+sign.Size = UDim2.fromOffset(260, 60)
+sign.AlwaysOnTop = true
+sign.StudsOffset = Vector3.new(0, 28, 0)
+sign.Parent = trunk
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.fromScale(1, 1)
+label.BackgroundTransparency = 1
+label.Text = "🐰 RABBIT GARDEN 🐰"
+label.TextColor3 = Color3.fromRGB(255, 250, 243)
+label.TextStrokeTransparency = 0.35
+label.Font = Enum.Font.GothamBold
+label.TextScaled = true
+label.Parent = sign
+
+-- Four paths and stairs
+local pathData = {
+	{ "North", Vector3.new(0, 0, -1) },
+	{ "East", Vector3.new(1, 0, 0) },
+	{ "South", Vector3.new(0, 0, 1) },
+	{ "West", Vector3.new(-1, 0, 0) },
+}
+
+for _, data in ipairs(pathData) do
+	local name, dir = data[1], data[2]
+	for i = 1, 7 do
+		local stepCenter = dir * (65 - i * 2.8) + Vector3.new(0, 4.4 - i * 0.4, 0)
+		local step = part(name .. "Step" .. i, Vector3.new(16, 1.2, 4.6), stepCenter, COLORS.cream, Enum.Material.Marble)
+		if math.abs(dir.X) > 0 then
+			step.Size = Vector3.new(4.6, 1.2, 16)
+		end
+	end
+
+	local path = part(name .. "Path", Vector3.new(16, 2.2, 110), dir * 114 + Vector3.new(0, 1, 0), COLORS.cream, Enum.Material.Marble)
+	if math.abs(dir.X) > 0 then
+		path.Size = Vector3.new(110, 2.2, 16)
+	end
+
+	-- gold edge line
+	local edgeDir = Vector3.new(-dir.Z, 0, dir.X)
+	local edge1 = part(name .. "Edge1", Vector3.new(2.2, 0.2, 110), dir * 114 + edgeDir * 7.5 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)
+	local edge2 = part(name .. "Edge2", Vector3.new(2.2, 0.2, 110), dir * 114 - edgeDir * 7.5 + Vector3.new(0, 1.3, 0), COLORS.gold, Enum.Material.Neon)
+	if math.abs(dir.X) > 0 then
+		edge1.Size = Vector3.new(110, 0.2, 2.2)
+		edge2.Size = Vector3.new(110, 0.2, 2.2)
+		edge1.Position = dir * 114 + edgeDir * 7.5 + Vector3.new(0, 1.3, 0)
+		edge2.Position = dir * 114 - edgeDir * 7.5 + Vector3.new(0, 1.3, 0)
+	end
+end
+
+-- Lanterns along the roads
+for _, data in ipairs(pathData) do
+	local name, dir = data[1], data[2]
+	for i = 1, 4 do
+		local pos = dir * (80 + i * 16) + Vector3.new(0, 10, 0)
+		local post = cylinder(name .. "LanternPost" .. i, 0.7, 8, pos - Vector3.new(0, 4, 0), COLORS.woodMid, Enum.Material.Wood)
+		local lantern = ball(name .. "Lantern" .. i, Vector3.new(3, 3, 3), pos, COLORS.goldLight, Enum.Material.Neon)
+		pointLight(lantern, COLORS.gold, 20, 1.2)
+	end
+end
+
+-- Decorative trees around the field
+for i = 1, 14 do
+	local angle = (math.pi * 2 / 14) * i
+	local treePos = Vector3.new(math.cos(angle) * 58, 10, math.sin(angle) * 58)
+	cylinder("DecorTreeTrunk" .. i, 2.4, 10, treePos, COLORS.woodMid, Enum.Material.Wood)
+	local color = i % 2 == 0 and COLORS.violet or COLORS.red
+	local crown = ball("DecorTreeCrown" .. i, Vector3.new(12, 15, 12), treePos + Vector3.new(0, 9, 0), color, Enum.Material.SmoothPlastic)
+	pointLight(crown, color, 12, 0.25)
+end
+
+-- Four spawn pads around the main tree
+local spawnPositions = {
+	Vector3.new(0, 7.2, -40),
+	Vector3.new(40, 7.2, 0),
+	Vector3.new(0, 7.2, 40),
+	Vector3.new(-40, 7.2, 0),
+}
+for i, pos in ipairs(spawnPositions) do
+	local spawn = spawnLocation("RabbitSpawn" .. i, pos, Vector3.new(14, 1, 14))
+	local outer = cylinder("SpawnRingOuter" .. i, 8, 0.25, pos + Vector3.new(0, 0.4, 0), COLORS.gold, Enum.Material.Neon)
+	local inner = cylinder("SpawnRingInner" .. i, 6, 0.2, pos + Vector3.new(0, 0.5, 0), COLORS.pink, Enum.Material.Neon)
+	pointLight(spawn, COLORS.pink, 14, 0.8)
+end
+
+-- Optional soft player spawn fallback
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		local hrp = character:WaitForChild("HumanoidRootPart", 10)
+		if hrp then
+			hrp.CFrame = CFrame.new(0, 10, -40)
+		end
+	end)
+end)
+
+print("RabbitWorld premium generado correctamente: cielo bonito, árbol central, 4 spawns y 4 pasillos.")
